@@ -22,7 +22,7 @@ class Student:
     def __str__(self):
         return (f"Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {AverValue.all_courses_average_grade(self)}\nКурсы в процессе изучения: {', '.join(self.courses_in_progress)}\nЗавершенные курсы: {', '.join(self.finished_courses)}")
     
-    # Сompairing
+    # Операторы сравнения
     def __gt__(self, other):
         if isinstance(self, Student) and isinstance(other, Student):
             if AverValue.all_courses_average_grade(self) > AverValue.all_courses_average_grade(other):
@@ -73,14 +73,14 @@ class AverValue():
             for course in self.grades:
                 av_val += mean(self.grades.get(course)) 
                 
-            return round(av_val/len(self.grades), 1) #I tried to make here the number, that will be more readable(round to 10'th after the comma).
+            return round(av_val/len(self.grades), 1)
         else:
             return 0.0
     
     def one_course_average_grade(self, course):
         if len(self.grades) != 0:
             av_val = mean(self.grades.get(course)) 
-            return round(av_val, 1) #I tried to make here the number, that will be more readable(round to 10'th after the comma).
+            return round(av_val, 1)
         else:
             return 0.0
 
@@ -95,7 +95,7 @@ class Lecturer(Mentor):
     def __str__(self):
         return (f"Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {AverValue.all_courses_average_grade(self)}")
 
-    # Compairing
+    # Операторы ссравнения
     def __gt__(self, other):
         if isinstance(self, Lecturer) and isinstance(other, Lecturer):
             if AverValue.all_courses_average_grade(self) > AverValue.all_courses_average_grade(other):
@@ -145,7 +145,7 @@ class Reviewer(Mentor):
         return (f"Имя: {self.name}\nФамилия: {self.surname}")
 
 
-# This function is suitable for both students and lecturers
+# Функция подходит и для студентов, и для лекторов
 def count_av_value_of_course(people_list, course_name):
     counter = 0
     counter_sudent = 0
@@ -160,7 +160,7 @@ def count_av_value_of_course(people_list, course_name):
 
 
 
-# Creating 2 students
+# Создаем 2 студента
 student_1 = Student('Harry','Maguire', 'Male')
 student_1.courses_in_progress += ['Python', 'Git']
 student_1.finished_courses += ['Введение']
@@ -169,84 +169,84 @@ student_2 = Student('Marry', 'Jane', 'Female')
 student_2.courses_in_progress += ['Python', 'Java']
 student_2.finished_courses += ['C++']
 
-# Creating 2 reviewers
+# Создаем 2 ревьюера
 reviewer_1 = Reviewer('Some', 'Buddy')
 reviewer_1.courses_attached += ['Python', 'Git']
 
 reviewer_2 = Reviewer('Some', 'Buddy')
 reviewer_2.courses_attached += ['Python', 'Java']
 
-# Creating 2 lecturers
+# Создаем 2 лектора
 lecturer_1 = Lecturer('Migel', 'Ohara')
 lecturer_1.courses_attached += ['Python', 'Git']
 
 lecturer_2 = Lecturer('Miles', 'Morales')
 lecturer_2.courses_attached += ['Python', 'Java']
 
-# Raiting students and lecturers
+# Оценивание студентов и лекторов
 print('-'*40)
 reviewer_1.rate_hw(student_1, 'Python', 9)
 reviewer_1.rate_hw(student_1, 'Git', 9)
 reviewer_2.rate_hw(student_1, 'Python', 10)
 reviewer_2.rate_hw(student_2, 'Python', 8)
 reviewer_2.rate_hw(student_2, 'Python', 8)
-reviewer_1.rate_hw(student_2, 'Java', 8) #He can't do this
+reviewer_1.rate_hw(student_2, 'Java', 8) #Не может сделать, т.к. у revieewer_1 нет Java
 
 student_1.rate_lecturer(lecturer_1, 'Git', 10)
 student_1.rate_lecturer(lecturer_2, 'Python', 10)
-student_1.rate_lecturer(lecturer_2, 'Java', 10) #He can't do this
+student_1.rate_lecturer(lecturer_2, 'Java', 10) #Не может сделать, т.к. у student_1 нет Java
 
 student_2.rate_lecturer(lecturer_1, 'Python', 9)
 student_2.rate_lecturer(lecturer_1, 'Python', 7)
 student_2.rate_lecturer(lecturer_2, 'Python', 8)
 student_2.rate_lecturer(lecturer_2, 'Java', 7) 
 
-print('Students grades:')
+print('Оценки студентов:')
 print(student_1.name, student_1.surname, student_1.grades)
 print(student_2.name, student_2.surname, student_2.grades, '\n')
-print('Lecturer grades:')
+print('Оценки лекторов:')
 print(lecturer_1.name, lecturer_1.surname, lecturer_1.grades)
 print(lecturer_2.name, lecturer_2.surname, lecturer_2.grades)
 print('\n'+'-'*40)
 
-# Printing student, lecturer, reviewer
-print('Printing student, lecturer, reviewer:\n')
+# Printing студента, лектора, ревьюера
+print('Printing студента, лектора, ревьюера:\n')
 print(student_1, '\n')
 print(lecturer_1, '\n')
 print(reviewer_1, '\n')
 print('-'*40)
 
-# Compairing people
-print('Compairing people\n')
-print('Students:')
+# Сравнение людей
+print('Сравнение людей\n')
+print('Студенты:')
 print(f"{AverValue.all_courses_average_grade(lecturer_1)} == {AverValue.all_courses_average_grade(lecturer_2)}", student_1 == student_2)
 print(f"{AverValue.all_courses_average_grade(lecturer_1)} != {AverValue.all_courses_average_grade(lecturer_2)}", student_1 != student_2)
 print(f"{AverValue.all_courses_average_grade(lecturer_1)} > {AverValue.all_courses_average_grade(lecturer_2)}", student_1 > student_2)
 print(f"{AverValue.all_courses_average_grade(lecturer_1)} < {AverValue.all_courses_average_grade(lecturer_2)}", student_1 < student_2, '\n')
 
 
-print('Lecturers:')
+print('Лекторы:')
 print(f"{AverValue.all_courses_average_grade(lecturer_1)} == {AverValue.all_courses_average_grade(lecturer_2)}", lecturer_1 == lecturer_2)
 print(f"{AverValue.all_courses_average_grade(lecturer_1)} != {AverValue.all_courses_average_grade(lecturer_2)}", lecturer_1 != lecturer_2)
 print(f"{AverValue.all_courses_average_grade(lecturer_1)} > {AverValue.all_courses_average_grade(lecturer_2)}", lecturer_1 > lecturer_2)
 print(f"{AverValue.all_courses_average_grade(lecturer_1)} < {AverValue.all_courses_average_grade(lecturer_2)}", lecturer_1 < lecturer_2)
 print( '\n'+'-'*40)
 
-print('If student and lecturer compaire:')
+print('Если сравнить студента и лектора:')
 print(f"{student_1.name} {student_1.surname} == {lecturer_2.name} {lecturer_2.surname}.", student_1 == lecturer_2)
 print(f"{lecturer_1.name} {lecturer_1.surname} != {student_2.name} {student_2.surname}.", lecturer_1 != student_2)
 print( '\n'+'-'*40)
 
 
-# Counting average grade of all people on course
-print('Counting average grade of all people on course:\n')
+# Подсчет среднего балла
+print('Подсчет среднего балла:\n')
 
-print('Students:')
+print('Студенты:')
 print(f'Python - {count_av_value_of_course([student_1, student_2], "Python")}')
 print(f'Git - {count_av_value_of_course([student_1, student_2], "Git")}')
 print(f'Java - {count_av_value_of_course([student_1, student_2], "Java")}')
 
-print('\nLecturers:')
+print('\nЛекторы:')
 print(f'Python - {count_av_value_of_course([lecturer_1, lecturer_2], "Python")}')
 print(f'Git - {count_av_value_of_course([lecturer_1, lecturer_2], "Git")}')
 print(f'Java - {count_av_value_of_course([lecturer_1, lecturer_2], "Java")}')
